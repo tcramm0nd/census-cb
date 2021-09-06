@@ -1,3 +1,5 @@
+#!/usr/bin/env bash
+
 # Default test with results to the terminal.
 pytest \
     --durations=0 \

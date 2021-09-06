@@ -1,1 +1,1 @@
-"""Initialize tests for census_cb"""
+"""Initialize tests for census_cb."""

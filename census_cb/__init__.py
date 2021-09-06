@@ -1,1 +1,1 @@
-"""Initialization for the census_cb library"""
+"""Initialization for the census_cb library."""
