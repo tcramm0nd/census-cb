@@ -12,8 +12,7 @@ logger.setLevel(logging.INFO)
 class BoundaryFile():
     BASE = "https://www2.census.gov/geo/tiger/"
     def __init__(self, year, state, entity, resolution, file_type='shp'):
-        """
-        Creates a Boundary File URL object validated against the available entries per year
+        """Creates a Boundary File URL object validated against the available entries per year
 
         Args:
             year (int): Year of the Census Cartographic Boundary File.
@@ -22,13 +21,13 @@ class BoundaryFile():
             resolution (str): Resolution of the file; 500k, 5m, or 20m.
             file_type (str, optional): [description]. Defaults to 'shp'. KML and GDB are also available.
 
-        """ 
+        """
         if year >= 2010:
             self.year_folder = f'GENZ{year}'
         else:
             self.year_folder = f'TIGER{year}'
             logger.warning('Files before the year 2010 are not supported!')
-                
+
         if file_type not in ['shp', 'kml', 'gbd']:
             raise TypeError
         else:
@@ -48,8 +47,7 @@ class BoundaryFile():
         return urljoin(self.BASE, url_path)
     
     def validate_url(self):
-        """Validates the generated URL.
-        """        
+        """Validates the generated URL."""     
         year_url = urljoin(self.BASE, self.year_folder)
         self._validator(year_url)
         file_url = urljoin(self.BASE, '/'.join([self.year_folder, self.file_type]))
@@ -146,9 +144,8 @@ class ProcessCBF():
     
     def get(self):
         """Gets a Census Bureau Cartographic Boundary File."""
-             
         data = self._get()
         if self.data_format == 'gdf':
-            return self._extract_data_to_gdf(data)    
+            return self._extract_data_to_gdf(data)
         elif self.data_format == 'file':
-            self._extract_data_to_file(data)     
+            self._extract_data_to_file(data)
