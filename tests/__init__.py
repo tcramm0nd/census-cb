@@ -1,0 +1,1 @@
+"""Initialize tests for census_cb"""
