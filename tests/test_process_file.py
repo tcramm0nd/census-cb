@@ -11,10 +11,10 @@ def example_pcbf(example_bf):
     return ProcessCBF(example_bf, 'file')
 
 @pytest.mark.parametrize('format, expected_path', 
-                         [(['gdf', None], '/tmp/cb_2020_us_state_500k'),
+                         [(['gdf', None], 'cb_2020_us_state_500k'),
                           (['gdf', '~/Downloads'], '~/Downloads/cb_2020_us_state_500k'),
                           (['file', None], 'cb_2020_us_state_500k'),
-                          (['file', '~/Downloads'], '~/Downloads/cb_2020_us_state_500k')])
+                          (['file', '/Downloads'], '/Downloads/cb_2020_us_state_500k')])
 def test_folder(format, expected_path, example_bf):
     pcbf = ProcessCBF(example_bf, format[0], path=format[1])
     assert pcbf.folder == expected_path
@@ -25,3 +25,8 @@ def test_get_fail():
     with pytest.raises(SystemExit) as e:
         ProcessCBF(BoundaryFile(2020, 'us', 'sate', '5000k'), 'file')._get()
 
+def test_gdf_generation(example_bf):
+    pcbf = ProcessCBF(example_bf, 'gdf', path='~/Downloads')
+    gdf = pcbf.get()
+def test_file_extraction(example_pcbf):
+    example_pcbf.get()

@@ -6,8 +6,6 @@ from urllib.parse import urljoin
 
 import requests
 
-# https://www.census.gov/geographies/mapping-files/time-series/geo/cartographic-boundary.html
-
 logger = logging.getLogger(__name__)
 logger.setLevel(logging.INFO)
 
@@ -55,12 +53,10 @@ class ProcessCBF():
         """        
         self.cbf_url = boundary_file.url
         self.format = format
-        self.filename = boundary_file.file_name
+        self.filename = f'{boundary_file.file_name[:-4]}.{boundary_file.file_type}'
         self.folder = self._set_folder(path)
         
     def _set_folder(self, path):
-        if self.format == 'gdf' and not path:
-            path = '/tmp'
         if path:
             return os.path.join(path, self.filename[:-4])
         else:
@@ -74,14 +70,26 @@ class ProcessCBF():
             raise SystemExit(e)
         return response.content
     
-    def _extract_data(self):
-        data = self._get()
+    def _extract_data_to_file(self, data):
         z = zipfile.ZipFile(io.BytesIO(data))
         z.extractall(self.folder)
+
+    def _extract_data_to_gdf(self, data):
+        from fiona.io import ZipMemoryFile
+        import geopandas as gpd
+        
+        zipshp = io.BytesIO(data)
+
+        with (ZipMemoryFile(zipshp)) as file:
+            with file.open() as gdf_source:
+                crs = gdf_source.crs
+                gdf = gpd.GeoDataFrame.from_features(gdf_source, crs=crs)
+                
+        return gdf        
+    
     def get(self):
-        if self.format == 'file':
-            self._extract_data()
-            logger.info(f'Successfully downloaded {self.filename} to {self.folder}')
-        elif self.format == 'gdf':
-            import geopandas as gpd
-            return gpd.GeoDataFrame(self._extract_data)
+        data = self._get()
+        if self.format == 'gdf':
+            self._extract_data_to_gdf(data)    
+        elif self.format == 'file':
+            self._extract_data_to_file(data)     
