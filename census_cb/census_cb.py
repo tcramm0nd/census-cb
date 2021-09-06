@@ -67,7 +67,7 @@ class BoundaryFile():
         response.raise_for_status()
 
 class ProcessCBF():
-    def __init__(self, boundary_file, format, path=None):
+    def __init__(self, boundary_file, data_format, path=None):
         """
         Fetches and processes a boundary file based on the desired return format.Currently supported formates are File and GeoDataFrames.
 
@@ -77,7 +77,7 @@ class ProcessCBF():
             path (str, optional): Path to save the extracted data. Defaults to None.
         """            
         self.cbf_url = boundary_file.url
-        self.format = format
+        self.data_format = data_format
         self.filename = f'{boundary_file.file_name[:-4]}.{boundary_file.file_type}'
         self.folder = self._set_folder(path)
         
@@ -145,10 +145,10 @@ class ProcessCBF():
         return gdf        
     
     def get(self):
-        """Gets a Census Bureau Cartographic Boundary File.
-        """        
+        """Gets a Census Bureau Cartographic Boundary File."""
+             
         data = self._get()
-        if self.format == 'gdf':
+        if self.data_format == 'gdf':
             return self._extract_data_to_gdf(data)    
-        elif self.format == 'file':
+        elif self.data_format == 'file':
             self._extract_data_to_file(data)     

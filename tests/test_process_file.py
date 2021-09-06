@@ -10,13 +10,13 @@ def example_bf():
 def example_pcbf(example_bf):
     return ProcessCBF(example_bf, 'file')
 
-@pytest.mark.parametrize('format, expected_path', 
+@pytest.mark.parametrize('data_format, expected_path', 
                          [(['gdf', None], 'cb_2020_us_state_500k'),
                           (['gdf', '~/Downloads'], '~/Downloads/cb_2020_us_state_500k'),
                           (['file', None], 'cb_2020_us_state_500k'),
                           (['file', '/Downloads'], '/Downloads/cb_2020_us_state_500k')])
-def test_folder(format, expected_path, example_bf):
-    pcbf = ProcessCBF(example_bf, format[0], path=format[1])
+def test_folder(data_format, expected_path, example_bf):
+    pcbf = ProcessCBF(example_bf, data_format[0], path=data_format[1])
     assert pcbf.folder == expected_path
 
 def test_get(example_pcbf):
