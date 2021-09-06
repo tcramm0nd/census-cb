@@ -23,7 +23,7 @@ def test_get(example_pcbf):
     assert len(example_pcbf._get()) == 3413716
 
 def test_get_fail():
-    with pytest.raises(SystemExit) as e:
+    with pytest.raises(SystemExit):
         ProcessCBF(BoundaryFile(2020, 'us', 'sate', '5000k'), 'file')._get()
 
 def test_gdf_generation(example_bf):

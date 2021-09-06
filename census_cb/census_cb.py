@@ -37,8 +37,7 @@ class BoundaryFile():
         self.url = self._generate_url()
         
     def _generate_url(self):
-        """
-        Wrapper function to create a url for Cartographic Boundary retireval.
+        """Wrapper function to create a url for Cartographic Boundary retireval.
 
         Returns:
             str: A URL string for the boundary file
@@ -66,8 +65,7 @@ class BoundaryFile():
 
 class ProcessCBF():
     def __init__(self, boundary_file, data_format, path=None):
-        """
-        Fetches and processes a boundary file based on the desired return format.Currently supported formates are File and GeoDataFrames.
+        """Fetches and processes a boundary file based on the desired return format.Currently supported formates are File and GeoDataFrames.
 
         Args:
             boundary_file (BoundaryFile): BoundaryFile object
@@ -80,8 +78,7 @@ class ProcessCBF():
         self.folder = self._set_folder(path)
         
     def _set_folder(self, path):
-        """
-        Sets the destination folder for the downloaded data
+        """Sets the destination folder for the downloaded data
 
         Args:
             path (str): The desired path to save the extraction folder
@@ -95,8 +92,7 @@ class ProcessCBF():
             return self.filename[:-4]
             
     def _get(self):
-        """
-        Returns bytes-level content of the Cartographic Boundary Zipfile
+        """Returns bytes-level content of the Cartographic Boundary Zipfile
 
         Raises:
             SystemExit: Exits when an incorrect URL is called
@@ -112,8 +108,7 @@ class ProcessCBF():
         return response.content
     
     def _extract_data_to_file(self, data):
-        """
-        Extracts data to be saved locally
+        """Extracts data to be saved locally
 
         Args:
             data (bytes): Bytes data from the BoundaryFile
@@ -122,8 +117,7 @@ class ProcessCBF():
         z.extractall(self.folder)
 
     def _extract_data_to_gdf(self, data):
-        """
-        Instantiates a GeoDataFrame.
+        """Instantiates a GeoDataFrame.
 
         Args:
             data (bytes): Bytes data from the BoundaryFile

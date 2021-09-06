@@ -13,7 +13,7 @@ def test_bf_years(caplog):
     assert 'Files before the year 2010 are not supported!' in caplog.text
     
 def test_bf_file_type():
-    with pytest.raises(TypeError) as e:
+    with pytest.raises(TypeError):
         BoundaryFile(2020, 'us', 'state', '500k', file_type='xyz')
         
 def test_bf_default_filetype(example_bf):
@@ -24,7 +24,7 @@ def test_bf_url(example_bf):
     
 def test_url_validator_fail():
     bf = BoundaryFile(2020, 'us', 'state', '5000k')
-    with pytest.raises(HTTPError) as e:
+    with pytest.raises(HTTPError):
         bf.validate_url()
 
 def test_url_validator(example_bf, caplog):
