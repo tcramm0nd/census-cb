@@ -1,5 +1,5 @@
 import pytest
-from census_cb.census_cb import BoundaryFile
+from src.census_cb.census_cb import BoundaryFile
 from requests.models import HTTPError
 
 
@@ -11,7 +11,7 @@ def example_bf():
 def test_bf_years(caplog):
     BoundaryFile(2009, 'us', 'state', '500k')
     assert 'Files before the year 2010 are not supported!' in caplog.text
-    
+
 def test_bf_file_type():
     with pytest.raises(TypeError):
         BoundaryFile(2020, 'us', 'state', '500k', file_type='xyz')

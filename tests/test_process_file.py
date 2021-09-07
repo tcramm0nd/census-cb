@@ -1,5 +1,5 @@
 import pytest
-from census_cb.census_cb import BoundaryFile, ProcessCBF
+from src.census_cb.census_cb import BoundaryFile, ProcessCBF
 from geopandas import GeoDataFrame
 
 @pytest.fixture

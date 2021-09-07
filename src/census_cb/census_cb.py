@@ -20,7 +20,6 @@ class BoundaryFile():
             entity (str): The name of the entity to be retrieved.
             resolution (str): Resolution of the file; 500k, 5m, or 20m.
             file_type (str, optional): [description]. Defaults to 'shp'. KML and GDB are also available.
-
         """
         if year >= 2010:
             self.year_folder = f'GENZ{year}'
@@ -46,7 +45,7 @@ class BoundaryFile():
         return urljoin(self.BASE, url_path)
     
     def validate_url(self):
-        """Validates the generated URL."""     
+        """Validates the generated URL."""
         year_url = urljoin(self.BASE, self.year_folder)
         self._validator(year_url)
         file_url = urljoin(self.BASE, '/'.join([self.year_folder, self.file_type]))
@@ -59,7 +58,7 @@ class BoundaryFile():
 
         Args:
             url (str): URL to be validated
-        """        
+        """
         response = requests.head(url)
         response.raise_for_status()
 
