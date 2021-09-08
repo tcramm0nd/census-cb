@@ -20,11 +20,11 @@ pip install census-cb
 # Create a Boundary File for the desired entity
 bf = BoundaryFile(2020, 'us', 'state', '500k')
 
-# Create a processor for downloading and unpacking the data
-pcbf = ProcessCBF(bf, 'gdf')
+# Create a processor for downloading and unpacking the data; this processor will return a GeoDataFrame
+cbfp = CBFProcessor('gdf')
 
-# Get the Data
-pcbf.get()
+# Downloads and extracts the Boundary File.
+cbfp.process_data(bf)
 ```
 
 ## Examples
@@ -34,10 +34,10 @@ Download and display the state boudnaries from the US Census Bureau.
 state_boundary_file = BoundaryFile(2020, 'us', 'state', '500k')
 
 # Create a processor that returns a GeoDataFrame
-pcbf = ProcessCBF(state_boundary_file, 'gdf')
+cbfp = CBFProcessor('gdf')
 
 # Get the Data
-state_lines = pcbf.get()
+state_lines = cbfp.process_data(state_boundary_file)
 
 # See the Data
 state_lines.plot()
@@ -46,8 +46,7 @@ state_lines.plot()
 ## To Do
 - provide some better functionality for editing Entity Information after a BoundaryFile object is declared
 - update `__str__` to return the attributes of the boudnary file
-- instantiate ProcessCBF as empty, so multiple boundary files can be passed to it.
-- build out factory setting for Processor. Also, change the name!
+
 
 
 
