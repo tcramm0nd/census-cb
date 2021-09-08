@@ -144,14 +144,12 @@ class CBFProcessor():
         """Gets a Census Bureau Cartographic Boundary File."""
         if len(args) == 0:
             return self.formatter(self._get())
+        elif len(args) == 1:
+            self._setup_boundary_file(args[0])
+            return self.formatter(self._get())
         else:
             results = []
-            for a in args[1]:
+            for a in args:
                 self._setup_boundary_file(a)
                 results.append(self.formatter(self._get()))
             return results
-            
-        # if self.data_format == 'gdf':
-        #     return self._extract_data_to_gdf(data)
-        # elif self.data_format == 'file':
-        #     self._extract_data_to_file(data)

@@ -1,6 +1,7 @@
 import pytest
 from src.census_cb.census_cb import BoundaryFile, CBFProcessor
 from geopandas import GeoDataFrame
+from os.path import isfile, isdir
 
 @pytest.fixture
 def example_bf():
@@ -35,5 +36,19 @@ def test_gdf_generation(example_bf):
     gdf = cbfp.process_data()
     assert type(gdf) == type(GeoDataFrame())
 
-# def test_file_extraction(example_cbfp):
-#     example_cbfp.get()
+def test_file_extraction(example_cbfp):
+    example_cbfp.process_data()
+    assert isdir('cb_2020_us_state_500k')
+    assert isfile('cb_2020_us_state_500k/cb_2020_us_state_500k.shp')
+
+def test_passing_boundary_file(example_bf):
+    cbfp = CBFProcessor('gdf')
+    gdf = cbfp.process_data(example_bf)
+    assert type(gdf) == type(GeoDataFrame())
+
+def test_multiple_boundary_files(example_bf):
+    cbfp = CBFProcessor('gdf')
+    results = cbfp.process_data(example_bf, example_bf)
+    assert len(results) == 2
+    assert type(results[0]) == type(GeoDataFrame())
+    assert type(results[1]) == type(GeoDataFrame())
