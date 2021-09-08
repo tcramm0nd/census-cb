@@ -62,26 +62,63 @@ class BoundaryFile():
         response = requests.head(url)
         response.raise_for_status()
 
-class ProcessCBF():
-    def __init__(self, boundary_file, data_format, path=None):
+class CBFProcessor():
+    def __init__(self, data_format, boundary_file=None, path=None):
         """Fetches and processes a boundary file based on the desired return format.Currently supported formates are File and GeoDataFrames.
-
         Args:
-            boundary_file (BoundaryFile): BoundaryFile object
             format (str): Format option of either file or GeoDataFrame
+            boundary_file (BoundaryFile, optional): BoundaryFile object. defaults to None.
             path (str, optional): Path to save the extracted data. Defaults to None.
-        """            
+        """
+        self.formatter = self._get_formatter(data_format)
+        self.path = path
+       
+        if boundary_file:
+            self._setup_boundary_file(boundary_file)
+       
+    def _get_formatter(self, data_format):
+        if data_format == 'file':
+            return self._extract_data_to_file
+        elif data_format == 'gdf':
+            return self._extract_data_to_gdf
+        else:
+            raise ValueError(data_format)
+
+    def _extract_data_to_file(self, data):
+        """Extracts data to be saved locally
+        Args:
+            data (bytes): Bytes data from the BoundaryFile
+        """        
+        z = zipfile.ZipFile(io.BytesIO(data))
+        z.extractall(self.folder)
+
+    def _extract_data_to_gdf(self, data):
+        """Instantiates a GeoDataFrame.
+        Args:
+            data (bytes): Bytes data from the BoundaryFile
+        Returns:
+            GeoDataFrame: Returns a GeoDataFrame
+        """        
+        from fiona.io import ZipMemoryFile
+        import geopandas as gpd
+       
+        zipshp = io.BytesIO(data)
+        with (ZipMemoryFile(zipshp)) as file:
+            with file.open() as gdf_source:
+                crs = gdf_source.crs
+                gdf = gpd.GeoDataFrame.from_features(gdf_source, crs=crs)
+               
+        return gdf 
+            
+    def _setup_boundary_file(self, boundary_file):
         self.cbf_url = boundary_file.url
-        self.data_format = data_format
         self.filename = f'{boundary_file.file_name[:-4]}.{boundary_file.file_type}'
-        self.folder = self._set_folder(path)
-        
+        self.folder = self._set_folder(self.path)
+
     def _set_folder(self, path):
         """Sets the destination folder for the downloaded data
-
         Args:
             path (str): The desired path to save the extraction folder
-
         Returns:
             str: the folder joined with the path
         """        
@@ -89,13 +126,10 @@ class ProcessCBF():
             return os.path.join(path, self.filename[:-4])
         else:
             return self.filename[:-4]
-            
     def _get(self):
         """Returns bytes-level content of the Cartographic Boundary Zipfile
-
         Raises:
             SystemExit: Exits when an incorrect URL is called
-
         Returns:
              eytes: Byte-response content
         """        
@@ -105,40 +139,19 @@ class ProcessCBF():
         except requests.exceptions.RequestException as e:
             raise SystemExit(e)
         return response.content
-    
-    def _extract_data_to_file(self, data):
-        """Extracts data to be saved locally
-
-        Args:
-            data (bytes): Bytes data from the BoundaryFile
-        """        
-        z = zipfile.ZipFile(io.BytesIO(data))
-        z.extractall(self.folder)
-
-    def _extract_data_to_gdf(self, data):
-        """Instantiates a GeoDataFrame.
-
-        Args:
-            data (bytes): Bytes data from the BoundaryFile
-
-        Returns:
-            GeoDataFrame: Returns a GeoDataFrame
-        """        
-        from fiona.io import ZipMemoryFile
-        import geopandas as gpd
-        
-        zipshp = io.BytesIO(data)
-        with (ZipMemoryFile(zipshp)) as file:
-            with file.open() as gdf_source:
-                crs = gdf_source.crs
-                gdf = gpd.GeoDataFrame.from_features(gdf_source, crs=crs)
-                
-        return gdf        
-    
-    def get(self):
+       
+    def process_data(self, *args):
         """Gets a Census Bureau Cartographic Boundary File."""
-        data = self._get()
-        if self.data_format == 'gdf':
-            return self._extract_data_to_gdf(data)
-        elif self.data_format == 'file':
-            self._extract_data_to_file(data)
+        if len(args) == 0:
+            return self.formatter(self._get())
+        else:
+            results = []
+            for a in args[1]:
+                self._setup_boundary_file(a)
+                results.append(self.formatter(self._get()))
+            return results
+            
+        # if self.data_format == 'gdf':
+        #     return self._extract_data_to_gdf(data)
+        # elif self.data_format == 'file':
+        #     self._extract_data_to_file(data)
