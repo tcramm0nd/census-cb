@@ -41,7 +41,108 @@ state_lines = cbfp.process_data(state_boundary_file)
 
 # See the Data
 state_lines.plot()
+state_lines.head()
 ```
+![State Boundaries Plot](img/state_boundaries.png)
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>geometry</th>
+      <th>STATEFP</th>
+      <th>STATENS</th>
+      <th>AFFGEOID</th>
+      <th>GEOID</th>
+      <th>STUSPS</th>
+      <th>NAME</th>
+      <th>LSAD</th>
+      <th>ALAND</th>
+      <th>AWATER</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>MULTIPOLYGON (((144.64538 13.23627, 144.64716 ...</td>
+      <td>66</td>
+      <td>01802705</td>
+      <td>0400000US66</td>
+      <td>66</td>
+      <td>GU</td>
+      <td>Guam</td>
+      <td>00</td>
+      <td>543555847</td>
+      <td>934337453</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>MULTIPOLYGON (((-94.71830 29.72885, -94.71721 ...</td>
+      <td>48</td>
+      <td>01779801</td>
+      <td>0400000US48</td>
+      <td>48</td>
+      <td>TX</td>
+      <td>Texas</td>
+      <td>00</td>
+      <td>676680588914</td>
+      <td>18979352230</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>MULTIPOLYGON (((-86.95617 45.35549, -86.95463 ...</td>
+      <td>55</td>
+      <td>01779806</td>
+      <td>0400000US55</td>
+      <td>55</td>
+      <td>WI</td>
+      <td>Wisconsin</td>
+      <td>00</td>
+      <td>140292246684</td>
+      <td>29343721650</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>MULTIPOLYGON (((-71.28802 41.64558, -71.28647 ...</td>
+      <td>44</td>
+      <td>01219835</td>
+      <td>0400000US44</td>
+      <td>44</td>
+      <td>RI</td>
+      <td>Rhode Island</td>
+      <td>00</td>
+      <td>2677759219</td>
+      <td>1323691129</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>MULTIPOLYGON (((-72.03683 41.24984, -72.03496 ...</td>
+      <td>36</td>
+      <td>01779796</td>
+      <td>0400000US36</td>
+      <td>36</td>
+      <td>NY</td>
+      <td>New York</td>
+      <td>00</td>
+      <td>122049520861</td>
+      <td>19256750161</td>
+    </tr>
+  </tbody>
+</table>
+</div>
 
 ## To Do
 - provide some better functionality for editing Entity Information after a BoundaryFile object is declared

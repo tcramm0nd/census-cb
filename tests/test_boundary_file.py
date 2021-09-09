@@ -7,13 +7,14 @@ from requests.models import HTTPError
 def example_bf():
     bf = BoundaryFile(2020, 'us', 'state', '500k')
     return bf
-
+def test__str__(example_bf):
+    assert str(example_bf) == 'Boundary File Attributes:\n--\nyear: 2020\nstate: us\nentity: state\nresolution: 500k'
 def test_bf_years(caplog):
     BoundaryFile(2009, 'us', 'state', '500k')
     assert 'Files before the year 2010 are not supported!' in caplog.text
 
 def test_bf_file_type():
-    with pytest.raises(TypeError):
+    with pytest.raises(ValueError):
         BoundaryFile(2020, 'us', 'state', '500k', file_type='xyz')
         
 def test_bf_default_filetype(example_bf):

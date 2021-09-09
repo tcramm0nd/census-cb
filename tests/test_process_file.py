@@ -20,6 +20,9 @@ def test_folder(data_format, expected_path, example_bf):
     cbfp = CBFProcessor(data_format[0], example_bf, path=data_format[1])
     assert cbfp.folder == expected_path
 
+def test__str__(example_cbfp):
+    assert str(example_cbfp) == 'A file processor for Cartographic Boundary Files'
+
 def test_data_format():
     with pytest.raises(ValueError):
         CBFProcessor('xyz')

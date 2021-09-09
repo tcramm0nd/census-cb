@@ -21,19 +21,29 @@ class BoundaryFile():
             resolution (str): Resolution of the file; 500k, 5m, or 20m.
             file_type (str, optional): [description]. Defaults to 'shp'. KML and GDB are also available.
         """
+        self.entity_attributes = {'year': year,
+                                  'state': state,
+                                  'entity': entity,
+                                  'resolution': resolution
+                           }
         if year >= 2010:
             self.year_folder = f'GENZ{year}'
         else:
             self.year_folder = f'TIGER{year}'
             logger.warning('Files before the year 2010 are not supported!')
 
-        if file_type not in ['shp', 'kml', 'gbd']:
-            raise TypeError
-        else:
+        if file_type in ['shp', 'kml', 'gbd']:
             self.file_type = file_type
+        else:
+            raise ValueError
         
         self.file_name = f'cb_{year}_{state}_{entity}_{resolution}.zip'
         self.url = self._generate_url()
+    def __str__(self):
+        str_lines = ['Boundary File Attributes:',
+                     '--',]
+        str_lines.extend([f'{key}: {item}' for key, item in self.entity_attributes.items()])
+        return '\n'.join(str_lines)
         
     def _generate_url(self):
         """Wrapper function to create a url for Cartographic Boundary retireval.
@@ -70,6 +80,7 @@ class CBFProcessor():
             boundary_file (BoundaryFile, optional): BoundaryFile object. defaults to None.
             path (str, optional): Path to save the extracted data. Defaults to None.
         """
+        self.data_format = data_format
         self.formatter = self._get_formatter(data_format)
         self.path = path
        
@@ -153,3 +164,5 @@ class CBFProcessor():
                 self._setup_boundary_file(a)
                 results.append(self.formatter(self._get()))
             return results
+    def __str__(self):
+        return f'A {self.data_format} processor for Cartographic Boundary Files'
