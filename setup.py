@@ -5,7 +5,7 @@ with open("README.md", "r", encoding="utf-8") as fh:
 
 setup(
     name="census-cb",
-    version="0.0.3",
+    version="0.1.0",
     author="Tim Crammond",
     author_email="author@example.com",
     description="Wrapper for downloading and processing Cartography Boundaries from the US Census Bureau",

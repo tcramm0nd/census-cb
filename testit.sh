@@ -4,7 +4,7 @@
 pytest \
     --durations=0 \
     --cov-report term-missing \
-    --cov=census_cb .
+    --cov=src/census_cb .
 
 # Generate HTML Reports of coverage with pytest
 # pytest\
