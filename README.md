@@ -2,6 +2,8 @@
 [![PyPI](https://img.shields.io/pypi/v/census-cb)](https://pypi.org/project/census-cb/)
 [![PyPI - Python Version](https://img.shields.io/pypi/pyversions/census-cb)](https://pypi.org/project/census-cb/)
 [![GitHub License](https://img.shields.io/github/license/tcramm0nd/census-cb)](https://github.com/tcramm0nd/census-cb/blob/main/LICENSE)
+![Coverage Report](https://img.shields.io/codacy/coverage/7c606d0c44fd475dbaf89cf61777ea64)
+![Codacy grade](https://img.shields.io/codacy/grade/7c606d0c44fd475dbaf89cf61777ea64)
 
 `census-cb` is a wrapper for downloading and processing Cartography Boundaries from the US Census Bureau. It stands for Census Cartographic Boundaries; apparently that's confusing (but, like most things, it made sense at the time).
 
