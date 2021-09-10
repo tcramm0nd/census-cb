@@ -36,10 +36,15 @@ class BoundaryFile():
             self.file_type = file_type
         else:
             raise ValueError
-        
+
         self.file_name = f'cb_{year}_{state}_{entity}_{resolution}.zip'
         self.url = self._generate_url()
     def __str__(self):
+        """String Description of the BoundaryFile entities.
+
+        Returns:
+            str: Description of the BoundaryFile entities.
+        """        
         str_lines = ['Boundary File Attributes:',
                      '--',]
         str_lines.extend([f'{key}: {item}' for key, item in self.entity_attributes.items()])
@@ -57,20 +62,20 @@ class BoundaryFile():
     def validate_url(self):
         """Validates the generated URL."""
         year_url = urljoin(self.BASE, self.year_folder)
-        self._validator(year_url)
+        validator(year_url)
         file_url = urljoin(self.BASE, '/'.join([self.year_folder, self.file_type]))
-        self._validator(file_url)
-        self._validator(self.url)
+        validator(file_url)
+        validator(self.url)
         logger.info('No issues found. Great!')
         
-    def _validator(self, url):
-        """Wraps the raise_for_status() call from requests.
+def validator(url):
+    """Wraps the raise_for_status() call from requests.
 
-        Args:
-            url (str): URL to be validated
-        """
-        response = requests.head(url)
-        response.raise_for_status()
+    Args:
+        url (str): URL to be validated
+    """
+    response = requests.head(url)
+    response.raise_for_status()
 
 class CBFProcessor():
     def __init__(self, data_format, boundary_file=None, path=None):
@@ -88,6 +93,17 @@ class CBFProcessor():
             self._setup_boundary_file(boundary_file)
        
     def _get_formatter(self, data_format):
+        """Fetches the data processor file for a specified data format type.
+
+        Args:
+            data_format (str): The desired Data Format for the processor
+
+        Raises:
+            ValueError: Unrecognized data format entered
+
+        Returns:
+            module: A processor for the specified data format.
+        """        
         if data_format == 'file':
             return self._extract_data_to_file
         elif data_format == 'gdf':
@@ -99,7 +115,7 @@ class CBFProcessor():
         """Extracts data to be saved locally
         Args:
             data (bytes): Bytes data from the BoundaryFile
-        """        
+        """
         z = zipfile.ZipFile(io.BytesIO(data))
         z.extractall(self.folder)
 
@@ -119,7 +135,7 @@ class CBFProcessor():
                 crs = gdf_source.crs
                 gdf = gpd.GeoDataFrame.from_features(gdf_source, crs=crs)
                
-        return gdf 
+        return gdf
             
     def _setup_boundary_file(self, boundary_file):
         self.cbf_url = boundary_file.url
@@ -165,4 +181,9 @@ class CBFProcessor():
                 results.append(self.formatter(self._get()))
             return results
     def __str__(self):
+        """String Description of the CBFProcessor.
+
+        Returns:
+            str: Description of the CBFProcessor type.
+        """         
         return f'A {self.data_format} processor for Cartographic Boundary Files'

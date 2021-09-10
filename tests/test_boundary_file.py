@@ -16,13 +16,13 @@ def test_bf_years(caplog):
 def test_bf_file_type():
     with pytest.raises(ValueError):
         BoundaryFile(2020, 'us', 'state', '500k', file_type='xyz')
-        
+
 def test_bf_default_filetype(example_bf):
     assert example_bf.file_type == 'shp'
-    
+
 def test_bf_url(example_bf):
     assert example_bf.url == 'https://www2.census.gov/geo/tiger/GENZ2020/shp/cb_2020_us_state_500k.zip'
-    
+
 def test_url_validator_fail():
     bf = BoundaryFile(2020, 'us', 'state', '5000k')
     with pytest.raises(HTTPError):

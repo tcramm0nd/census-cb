@@ -6,7 +6,7 @@
 `census-cb` is a wrapper for downloading and processing Cartography Boundaries from the US Census Bureau. It stands for Census Cartographic Boundaries; apparently that's confusing (but, like most things, it made sense at the time).
 
 The goal of `census-cb` is to provide an easy way to get GIS information created by the United States Census Bureau. There's a wide variety of cartographic files availbable for download, such as state and county lines, voting district, Tribal subdivisions, and more!
-### Entiry Information
+## Entity Information
 There are a designated set of entities available for download from the census bureau. Each year of available data has a specific set of available entities, and the shape of these entities may change from year to year. You can find a full list [pdf of available entities for download](https://www2.census.gov/geo/tiger/GENZ2020/2020_file_name_def.pdf) on the US Census Bureau site.
 ## Installation
 Install using `pip`
@@ -44,20 +44,8 @@ state_lines.plot()
 state_lines.head()
 ```
 ![State Boundaries Plot](img/state_boundaries.png)
+
 <div>
-<style scoped>
-    .dataframe tbody tr th:only-of-type {
-        vertical-align: middle;
-    }
-
-    .dataframe tbody tr th {
-        vertical-align: top;
-    }
-
-    .dataframe thead th {
-        text-align: right;
-    }
-</style>
 <table border="1" class="dataframe">
   <thead>
     <tr style="text-align: right;">
@@ -145,12 +133,4 @@ state_lines.head()
 </div>
 
 ## To Do
-- provide some better functionality for editing Entity Information after a BoundaryFile object is declared
-- update `__str__` to return the attributes of the boudnary file
-
-
-
-
-
-
-
+  - provide some better functionality for editing Entity Information after a BoundaryFile object is declared.

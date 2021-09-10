@@ -130,6 +130,7 @@ dmypy.json
 
 # coverage test results folder
 cov_html/
+cov.xml
 
 # VS Code stuff
 .vscode/

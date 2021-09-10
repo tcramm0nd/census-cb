@@ -47,11 +47,11 @@ def test_file_extraction(example_cbfp):
 def test_passing_boundary_file(example_bf):
     cbfp = CBFProcessor('gdf')
     gdf = cbfp.process_data(example_bf)
-    assert type(gdf) == type(GeoDataFrame())
+    assert isinstance(gdf, GeoDataFrame)
 
 def test_multiple_boundary_files(example_bf):
     cbfp = CBFProcessor('gdf')
     results = cbfp.process_data(example_bf, example_bf)
     assert len(results) == 2
-    assert type(results[0]) == type(GeoDataFrame())
-    assert type(results[1]) == type(GeoDataFrame())
+    assert isinstance(results[0], GeoDataFrame)
+    assert isinstance(results[1], GeoDataFrame)
