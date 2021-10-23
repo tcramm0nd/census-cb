@@ -44,12 +44,12 @@ class BoundaryFile():
 
         Returns:
             str: Description of the BoundaryFile entities.
-        """        
+        """
         str_lines = ['Boundary File Attributes:',
                      '--',]
         str_lines.extend([f'{key}: {item}' for key, item in self.entity_attributes.items()])
         return '\n'.join(str_lines)
-        
+
     def _generate_url(self):
         """Wrapper function to create a url for Cartographic Boundary retireval.
 
@@ -67,7 +67,7 @@ class BoundaryFile():
         validator(file_url)
         validator(self.url)
         logger.info('No issues found. Great!')
-        
+
 def validator(url):
     """Wraps the raise_for_status() call from requests.
 

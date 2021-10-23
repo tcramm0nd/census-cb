@@ -38,6 +38,7 @@ def test_gdf_generation(example_bf):
     cbfp = CBFProcessor('gdf', example_bf, path='~/Downloads')
     gdf = cbfp.process_data()
     assert type(gdf) == type(GeoDataFrame())
+    assert isinstance(gdf,GeoDataFrame)
 
 def test_file_extraction(example_cbfp):
     example_cbfp.process_data()

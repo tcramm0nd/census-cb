@@ -5,7 +5,7 @@ with open("README.md", "r", encoding="utf-8") as fh:
 
 setup(
     name="census-cb",
-    version="0.1.0",
+    version="0.1.1",
     author="Tim Crammond",
     author_email="author@example.com",
     description="Wrapper for downloading and processing Cartography Boundaries from the US Census Bureau",
@@ -23,7 +23,8 @@ setup(
     package_dir={"": "src"},
     packages=find_packages(where="src"),
     python_requires=">=3.6",
-    install_requires=['geopandas==0.9.0',
-                      'pandas==1.3.2',
-                      'requests==2.26.0']
+    install_requires=['geopandas>=0.9.0',
+                      'pandas>=1.3.2',
+                      'requests>=2.26.0',
+                      'pyyaml>=5.4.1']
 )

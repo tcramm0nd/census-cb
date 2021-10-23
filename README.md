@@ -19,6 +19,9 @@ pip install census-cb
 ## Usage
 
 ```(python)
+# import census_cb
+from census_cb.census_cb import *
+
 # Create a Boundary File for the desired entity
 bf = BoundaryFile(2020, 'us', 'state', '500k')
 
